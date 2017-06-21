@@ -5,11 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainWindow {
-    JButton button1;
+    JButton openButton;
     JPanel mainPanel;
+    private JTextArea inputTextArea;
+    private JButton acceptButton;
+    private JTextArea resultTextArea;
+    private JButton saveButton;
+    private JTabbedPane modeTab;
+    private JPanel inputTab;
+    private JPanel displayTab;
+    private JPanel resultTab;
 
     public MainWindow() {
-        button1.addActionListener(new ActionListener() {
+        openButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Hi Bro");
