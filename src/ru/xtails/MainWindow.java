@@ -12,7 +12,7 @@ public class MainWindow {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Hi");
+                JOptionPane.showMessageDialog(null, "Hi Bro");
             }
         });
     }
