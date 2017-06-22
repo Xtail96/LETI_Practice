@@ -55,17 +55,8 @@ public class Graph {
      * @return Возвращает добавленную вершину, либо уже существующую в графе вершину
      */
     public Vertex addVertex(String name) {
-        Vertex v = vertices.get(name);
-
-        // если вершины нет в списке, добавляем
-        if (v == null) {
-            v = new Vertex(name);
-            vertices.put(name, v);
-            adjList.put(v, new TreeSet<>());
-            V++;
-        }
-
-        return v;
+        Vertex v = new Vertex(name);
+        return addVertex(v);
     }
 
     /**
