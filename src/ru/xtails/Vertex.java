@@ -1,6 +1,6 @@
 package ru.xtails;
 
-public class Vertex {
+public class Vertex implements Comparable<Vertex> {
     /**
      * Метка вершины
      */
@@ -38,6 +38,19 @@ public class Vertex {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    /**
+     * Метод, необходимый для сортировки вершин в HashMap
+     * Сравнивает текущую вершину с вершиной other
+     * @param other вершина для сравнения с текущей
+     * @return Возвращает 0, если текущая вершина совпадает с other,
+     * отрицательное число, если текущая вершина "меньше" other,
+     * положительное число, если текущая вершина "больше" other
+     */
+    @Override
+    public int compareTo(Vertex other) {
+        return name.compareTo(other.name);
     }
 
     /**
