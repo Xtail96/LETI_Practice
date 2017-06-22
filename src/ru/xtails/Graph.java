@@ -33,8 +33,8 @@ public class Graph {
      * Создает пустой граф
      */
     public Graph() {
-        adjList = new HashMap<Vertex, TreeSet<Vertex>>();
-        vertices = new HashMap<String, Vertex>();
+        adjList = new HashMap<>();
+        vertices = new HashMap<>();
         V = E = 0;
     }
 
@@ -50,7 +50,7 @@ public class Graph {
         if (v == null) {
             v = new Vertex(name);
             vertices.put(name, v);
-            adjList.put(v, new TreeSet<Vertex>());
+            adjList.put(v, new TreeSet<>());
             V++;
         }
 
@@ -68,7 +68,7 @@ public class Graph {
         // если вершины нет в списке, добавляем
         if (w == null) {
             vertices.put(v.name, v);
-            adjList.put(v, new TreeSet<Vertex>());
+            adjList.put(v, new TreeSet<>());
             V++;
         }
 
