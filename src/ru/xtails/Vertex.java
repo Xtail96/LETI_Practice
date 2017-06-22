@@ -23,4 +23,23 @@ public class Vertex {
         predecessor = null;
         color = 0;
     }
+
+    /**
+     * Имя вершины уникально в графе, поэтому
+     * оно используется в качестве хеша
+     *
+     * @return Возвращает хеш данной вершины
+     */
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    /**
+     * @return Возвращает имя вершины
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }
