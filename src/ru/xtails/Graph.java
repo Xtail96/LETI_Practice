@@ -95,6 +95,15 @@ public class Graph {
     }
 
     /**
+     * Проверяет вхождение вершины в граф
+     * @param v Исходная вершина
+     * @return Возвращает true, если вершина содержится в графе, иначе false
+     */
+    public boolean hasVertex(Vertex v) {
+        return adjList.containsKey(v);
+    }
+
+    /**
      * Добавляет ребро в граф.
      * Не добавляет ребро, если такое же ребро уже существует.
      * Если какой-либо вершины нет в графе, добавляет ее
@@ -129,16 +138,26 @@ public class Graph {
      * @param to Конечная вершина
      * @return Возвращает true, если ребро from-to есть в графе, иначе false
      */
-    public boolean hasEdge(String from, String to) {
-        Vertex v = getVertex(from);
-        Vertex w = getVertex(to);
-
-        if ((v != null) && (w != null)) {
-            return adjList.get(v).contains(w);
+    public boolean hasEdge(Vertex from, Vertex to) {
+        if (hasVertex(from) && hasVertex(to)) {
+            return adjList.get(from).contains(to);
         } else {
             // одной из вершин нет в графе
             return false;
         }
+    }
+
+    /**
+     * Проверяет наличие ребра from-to в графе
+     * @param from Имя исходной вершины
+     * @param to Имя конечной вершины
+     * @return Возвращает true, если ребро from-to есть в графе, иначе false
+     */
+    public boolean hasEdge(String from, String to) {
+        Vertex v = getVertex(from);
+        Vertex w = getVertex(to);
+
+        return hasEdge(v, w);
     }
 
     /**
