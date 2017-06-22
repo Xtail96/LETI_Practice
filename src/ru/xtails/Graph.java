@@ -69,8 +69,9 @@ public class Graph {
 
         // если вершины нет в списке, добавляем
         if (w == null) {
-            vertices.put(v.name, v);
-            adjList.put(v, new TreeSet<>());
+            w = v;
+            vertices.put(w.name, w);
+            adjList.put(w, new TreeSet<>());
             V++;
         }
 
