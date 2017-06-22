@@ -197,4 +197,26 @@ public class Graph {
     public int numEdges() {
         return E;
     }
+
+    /**
+     * Возвращает строковое представление графа в виде списка смежности
+     */
+    @Override
+    public String toString() {
+        String graph = "{" + NEWLINE;
+
+        for (Vertex v : vertices.values()) {
+            graph += "\t" + v + ": { ";
+
+            for (Vertex w : adjList.get(v)) {
+                graph += w + ", ";
+            }
+
+            graph += " }" + NEWLINE;
+        }
+
+        graph += "}";
+
+        return graph;
+    }
 }
