@@ -1,6 +1,8 @@
 package ru.xtails;
 
 import java.util.HashMap;
+import java.util.TreeSet;
+
 
 /**
  * Класс, представляющий ориентированный невзвешанный граф вершин,
@@ -34,5 +36,40 @@ public class Graph {
         adjList = new HashMap<Vertex, TreeSet<Vertex>>();
         vertices = new HashMap<String, Vertex>();
         V = E = 0;
+    }
+
+    /**
+     * Добавляет новую вершину без соседей по имени (если в графе нет вершины с таким же именем)
+     * @param name Имя добавляемой вершины
+     * @return Возвращает добавленную вершину, либо уже существующую в графе вершину
+     */
+    public Vertex addVertex(String name) {
+        Vertex v = vertices.get(name);
+
+        // если вершины нет в списке, добавляем
+        if (v == null) {
+            v = new Vertex(name);
+            vertices.put(name, v);
+            adjList.put(v, new TreeSet<Vertex>());
+            V++;
+        }
+
+        return v;
+    }
+
+    /**
+     * Добавляет в граф вершину без соседей (если в графе нет вершины с таким же именем)
+     * @param v Добавляемая вершина
+     * @return Возвращает добавленную вершину, либо уже существующую в графе вершину
+     */
+    public Vertex addVertex(Vertex v) {
+        Vertex w = vertices.get(v.name);
+
+        // если вершины нет в списке, добавляем
+        if (w == null) {
+            vertices.put(v.name, v);
+            adjList.put(v, new TreeSet<Vertex>());
+            V++;
+        }
     }
 }
