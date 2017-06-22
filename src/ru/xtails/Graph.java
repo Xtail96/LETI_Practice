@@ -140,4 +140,35 @@ public class Graph {
             return false;
         }
     }
+
+    /**
+     * @return Возвращает итератор по всем вершинам графа
+     */
+    public Iterable<Vertex> getVertices() {
+        return vertices.values();
+    }
+
+    /**
+     * Возвращает список соседей заданной вершины
+     * @param v Исходная вершина
+     * @return Возвращает итератор по всем соседям вершины v,
+     * либо пустое множество, если вершина не содержится в графе
+     */
+    public Iterable<Vertex> getNeighbours(Vertex v) {
+        if (adjList.containsKey(v))
+            return adjList.get(v);
+        else
+            return new TreeSet<>();
+    }
+
+    /**
+     * Возвращает список соседей вершины с заданным именем
+     * @param name Имя вершины
+     * @return Возвращает итератор по всем соседям вершины,
+     * либо пустое множество, если вершина не содержится в графе
+     */
+    public Iterable<Vertex> getNeighbours(String name) {
+        Vertex v = getVertex(name);
+        return getNeighbours(v);
+    }
 }
