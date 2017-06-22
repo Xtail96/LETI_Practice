@@ -187,6 +187,20 @@ public class Graph {
     }
 
     /**
+     * @return Возвращает непосещенную вершину графа.
+     * Если все вершины были посещены, возвращает null
+     */
+    public Vertex getUnvisitedVertex() {
+        for (Vertex v : vertices.values()) {
+            if (!v.visited) {
+                return v;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return Возвращает число вершин в графе
      */
     public int numVertices() {

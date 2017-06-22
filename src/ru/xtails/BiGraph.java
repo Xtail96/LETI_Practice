@@ -33,7 +33,7 @@ public class BiGraph extends Graph {
 
     private void paintGraph(Graph g) {
         Vertex v;
-
+        // запускаем bfs для всех непосещенных вершин
         while ((v = g.getUnvisitedVertex()) != null) {
             bfs(g, v);
         }
