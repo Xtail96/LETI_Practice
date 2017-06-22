@@ -10,6 +10,10 @@ public class Vertex {
      */
     public Vertex predecessor;
     /**
+     * Была ли посещена вершина
+     */
+    public boolean visited;
+    /**
      * Цвет вершины
      */
     public int color;
@@ -21,6 +25,7 @@ public class Vertex {
     public Vertex(String v) {
         name = v;
         predecessor = null;
+        visited = false;
         color = 0;
     }
 
