@@ -71,5 +71,7 @@ public class Graph {
             adjList.put(v, new TreeSet<Vertex>());
             V++;
         }
+
+        return w;
     }
 }
