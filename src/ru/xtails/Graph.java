@@ -74,4 +74,23 @@ public class Graph {
 
         return w;
     }
+
+    /**
+     * Возвращает вершину по соответствующему имени
+     * @param name Имя вершины
+     * @return Возвращает соответствующую вершину в графе, либо null,
+     * если такой вершины нет в графе
+     */
+    public Vertex getVertex(String name) {
+        return vertices.get(name);
+    }
+
+    /**
+     * Проверяет вхождение вершины в граф
+     * @param name Имя вершины
+     * @return Возвращает true, если вершина содержится в графе, иначе false
+     */
+    public boolean hasVertex(String name) {
+        return vertices.containsKey(name);
+    }
 }
