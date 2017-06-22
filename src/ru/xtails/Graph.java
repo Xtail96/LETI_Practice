@@ -171,4 +171,18 @@ public class Graph {
         Vertex v = getVertex(name);
         return getNeighbours(v);
     }
+
+    /**
+     * @return Возвращает число вершин в графе
+     */
+    public int numVertices() {
+        return V;
+    }
+
+    /**
+     * @return Возвращает число ребер в графе
+     */
+    public int numEdges() {
+        return E;
+    }
 }
