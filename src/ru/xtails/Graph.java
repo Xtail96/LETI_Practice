@@ -116,16 +116,9 @@ public class Graph {
             return;
         }
 
-        Vertex v = getVertex(from);
-        Vertex w = getVertex(to);
-
-        // если отсутствует вершина, добавляем ее
-        if (v == null) {
-            v = addVertex(from);
-        }
-        if (w == null) {
-            w = addVertex(to);
-        }
+        // добавляем вершины, если они еще не добавлены
+        Vertex v = addVertex(from);
+        Vertex w = addVertex(to);
 
         // добавляем ребро
         adjList.get(v).add(w);
