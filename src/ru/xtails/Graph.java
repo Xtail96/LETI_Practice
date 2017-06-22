@@ -21,13 +21,13 @@ import java.util.TreeSet;
  * В данной реализации граф представлен списком ребер
  */
 public class Graph {
-    private static final String NEWLINE = System.getProperty("line.separator");
+    protected static final String NEWLINE = System.getProperty("line.separator");
 
-    private HashMap<Vertex, TreeSet<Vertex>> adjList;
-    private HashMap<String, Vertex> vertices;
+    protected HashMap<Vertex, TreeSet<Vertex>> adjList;
+    protected HashMap<String, Vertex> vertices;
 
-    private int V;
-    private int E;
+    protected int V;
+    protected int E;
 
     /**
      * Создает пустой граф
