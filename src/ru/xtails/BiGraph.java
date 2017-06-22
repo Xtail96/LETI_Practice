@@ -121,6 +121,60 @@ public class BiGraph extends Graph {
     }
 
     /**
+     * Проверяет вхождение вершины в 1-ю долю
+     * @param name Имя вершины
+     * @return true, если вершина содержится в 1-й доле, иначе false
+     */
+    public boolean isVertexInPart1(String name) {
+        return part1.containsKey(name);
+    }
+
+    /**
+     * Проверяет вхождение вершины во 2-ю долю
+     * @param name Имя вершины
+     * @return true, если вершина содержится во 2-й доле, иначе false
+     */
+    public boolean isVertexInPart2(String name) {
+        return part2.containsKey(name);
+    }
+
+    /**
+     * Проверяет вхождение вершины в 1-ю долю
+     * @param v исходная вершина
+     * @return true, если вершина содержится в 1-й доле, иначе false
+     */
+    public boolean isVertexInPart1(Vertex v) {
+        return part1.containsValue(v);
+    }
+
+    /**
+     * Проверяет вхождение вершины во 2-ю долю
+     * @param v исходная вершина
+     * @return true, если вершина содержится во 2-й доле, иначе false
+     */
+    public boolean isVertexInPart2(Vertex v) {
+        return part2.containsValue(v);
+    }
+
+    /**
+     * Добавляет ребро в граф.
+     * Если вершины находятся в одной доле, бросает исключение
+     * Не добавляет ребро, если такое же ребро уже существует.
+     * Если какой-либо вершины нет в графе, добавляет ее
+     * @param from Исходная вершина
+     * @param to Конечная вершина
+     */
+    @Override
+    public void addEdge(String from, String to) {
+        if ( (isVertexInPart1(from) && isVertexInPart2(to)) ||
+             (isVertexInPart2(from) && isVertexInPart2(to)) ) {
+            throw new IllegalArgumentException("Вершины находятся в одной доле");
+        }
+
+        super.addEdge(from, to);
+    }
+
+    /**
      * Раскрашивает заданный граф по правилу:
      *      цвет вершины = цвет предыдущей вершины + 1
      * @param g граф, который нужно раскрасить
