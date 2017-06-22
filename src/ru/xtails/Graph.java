@@ -122,4 +122,22 @@ public class Graph {
         adjList.get(v).add(w);
         E++;
     }
+
+    /**
+     * Проверяет наличие ребра from-to в графе
+     * @param from Исходная вершина
+     * @param to Конечная вершина
+     * @return Возвращает true, если ребро from-to есть в графе, иначе false
+     */
+    public boolean hasEdge(String from, String to) {
+        Vertex v = getVertex(from);
+        Vertex w = getVertex(to);
+
+        if ((v != null) && (w != null)) {
+            return adjList.get(v).contains(w);
+        } else {
+            // одной из вершин нет в графе
+            return false;
+        }
+    }
 }
