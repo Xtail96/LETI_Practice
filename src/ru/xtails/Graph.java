@@ -93,4 +93,33 @@ public class Graph {
     public boolean hasVertex(String name) {
         return vertices.containsKey(name);
     }
+
+    /**
+     * Добавляет ребро в граф.
+     * Не добавляет ребро, если такое же ребро уже существует.
+     * Если какой-либо вершины нет в графе, добавляет ее
+     * @param from Исходная вершина
+     * @param to Конечная вершина
+     */
+    public void addEdge(String from, String to) {
+        // если ребро существует, возвращаемся
+        if (hasEdge(from, to)) {
+            return;
+        }
+
+        Vertex v = getVertex(from);
+        Vertex w = getVertex(to);
+
+        // если отсутствует вершина, добавляем ее
+        if (v == null) {
+            v = addVertex(from);
+        }
+        if (w == null) {
+            w = addVertex(to);
+        }
+
+        // добавляем ребро
+        adjList.get(v).add(w);
+        E++;
+    }
 }
