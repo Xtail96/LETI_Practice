@@ -198,6 +198,20 @@ public class BiGraph extends Graph {
     }
 
     /**
+     * @return возвращает итератор на вершины 1-й доли
+     */
+    public Iterable<Vertex> getPart1Vertices() {
+        return part1.values();
+    }
+
+    /**
+     * @return возвращает итератор на вершины 2-й доли
+     */
+    public Iterable<Vertex> getPart2Vertices() {
+        return part2.values();
+    }
+
+    /**
      * Добавляет ребро в граф.
      * Если вершины находятся в одной доле, бросает исключение
      * Не добавляет ребро, если такое же ребро уже существует.
@@ -214,7 +228,7 @@ public class BiGraph extends Graph {
         if (fromPart > 0) {
             if (toPart > 0) {
                 // нельзя соединить вершины из одной доли
-                if (fromPart != toPart) {
+                if (fromPart == toPart) {
                     throw new IllegalArgumentException("Невозможно соединить вершины, находящиеся в одной доле");
                 }
             } else {
@@ -281,5 +295,27 @@ public class BiGraph extends Graph {
                 }
             }
         }
+    }
+
+    /**
+     * @return Возвращает строковое представление графа
+     */
+    @Override
+    public String toString() {
+        String s = super.toString() + NEWLINE;
+
+        s += "part1: { ";
+        for (Vertex p1 : getPart1Vertices()) {
+            s += p1 + ", ";
+        }
+        s += " }" + NEWLINE;
+
+        s += "part2: { ";
+        for (Vertex p2 : getPart2Vertices()) {
+            s += p2 + ", ";
+        }
+        s += " }";
+
+        return s;
     }
 }
