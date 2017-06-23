@@ -110,6 +110,25 @@ public class BiGraph extends Graph {
     }
 
     /**
+     * Добавляет вершину addedVertex в долю, противоположную opposedVertex
+     * @param addedVertex добавляемая вершина
+     * @param opposedVertex противоположная вершина
+     * @return возвращает добавленную вершину
+     */
+    public Vertex addVertexToOppositePart(String addedVertex, String opposedVertex) {
+        Vertex v = new Vertex(addedVertex);
+        int part = getVertexPart(opposedVertex);
+
+        if (part == 1)
+            return addVertexToPart2(v);
+        else
+            if (part == 2)
+                return addVertexToPart1(v);
+            else
+                throw new IllegalStateException( String.format("Неизвестный номер доли {%d} у вершины {%s}", part, opposedVertex) );
+    }
+
+    /**
      * Добавляет вершину в 1-ю долю графа
      * Вершина не добавляется в граф, если в графе уже есть вершина с таким же именем
      * @param v вершина
@@ -157,6 +176,28 @@ public class BiGraph extends Graph {
     }
 
     /**
+     * Возвращает номер доли, которой принадлежит вершина.
+     * Если вершина не принадлежит ни одной доле, возвращает 0
+     * @param name Имя исходной вершины
+     * @return номер доли - (1, 2, 0)
+     */
+    public int getVertexPart(String name) {
+        if (hasVertex(name)) {
+            if (isVertexInPart1(name)) {
+                return 1;
+            }
+
+            if (isVertexInPart2(name)) {
+                return 2;
+            }
+
+            return 0;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * Добавляет ребро в граф.
      * Если вершины находятся в одной доле, бросает исключение
      * Не добавляет ребро, если такое же ребро уже существует.
@@ -166,11 +207,32 @@ public class BiGraph extends Graph {
      */
     @Override
     public void addEdge(String from, String to) {
-        if ( (isVertexInPart1(from) && isVertexInPart2(to)) ||
-             (isVertexInPart2(from) && isVertexInPart2(to)) ) {
-            throw new IllegalArgumentException("Вершины находятся в одной доле");
+        int fromPart = getVertexPart(from);
+        int toPart = getVertexPart(to);
+
+        // добавляем вершины в нужные доли, если необходимо
+        if (fromPart > 0) {
+            if (toPart > 0) {
+                // нельзя соединить вершины из одной доли
+                if (fromPart != toPart) {
+                    throw new IllegalArgumentException("Невозможно соединить вершины, находящиеся в одной доле");
+                }
+            } else {
+                // добавляем to в долю, противоположную from
+                addVertexToOppositePart(to, from);
+            }
+        } else {
+            if (toPart > 0) {
+                // добавляем from в долю, противоположную to
+                addVertexToOppositePart(from, to);
+            } else {
+                // добавляем обе вершины в граф
+                addVertexToPart1(from);
+                addVertexToPart2(to);
+            }
         }
 
+        // соединяем их ребром
         super.addEdge(from, to);
     }
 
