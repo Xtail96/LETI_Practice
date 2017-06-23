@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.TreeSet;
 
+/**
+ * Класс, представляющий неориентированный невзвешанный двудольный граф
+ */
 public class BiGraph extends Graph {
 
     /**
