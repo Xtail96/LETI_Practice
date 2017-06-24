@@ -1,6 +1,7 @@
 package ru.xtails;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 
@@ -19,6 +20,9 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
+
+
     }
 
     /**
