@@ -19,12 +19,12 @@ public class MainWindow {
     private JPanel inputTab;
     private JPanel displayTab;
     private JPanel resultTab;
-    private JPanel drawPanel;
     private JButton beginVisualizationButton;
     private JTextArea hintTextArea;
     private JButton nextStepButton;
     private JCheckBox continiousCheckBox;
     private JLabel visualizationHintLabel;
+    private Visualizer visualizer1;
 
     public MainWindow() {
         openButton.addActionListener(new ActionListener() {
@@ -62,8 +62,5 @@ public class MainWindow {
                 }
             }
         });
-
-
-        drawPanel.setBackground(Color.white);
     }
 }
