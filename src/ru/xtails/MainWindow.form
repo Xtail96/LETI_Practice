@@ -75,7 +75,7 @@
                 <border type="none"/>
                 <children/>
               </grid>
-              <component id="adbb7" class="javax.swing.JButton" binding="начатьButton" default-binding="true">
+              <component id="adbb7" class="javax.swing.JButton" binding="beginVisualizationButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -83,7 +83,7 @@
                   <text value="Начать"/>
                 </properties>
               </component>
-              <component id="fd9cd" class="javax.swing.JLabel">
+              <component id="fd9cd" class="javax.swing.JLabel" binding="visualizationHintLabel">
                 <constraints>
                   <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -91,7 +91,7 @@
                   <text value="Пояснения к визуализации"/>
                 </properties>
               </component>
-              <component id="86945" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+              <component id="86945" class="javax.swing.JTextArea" binding="hintTextArea">
                 <constraints>
                   <grid row="1" column="3" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
@@ -101,7 +101,7 @@
                   <editable value="false"/>
                 </properties>
               </component>
-              <component id="ec295" class="javax.swing.JButton" binding="шагВпередButton" default-binding="true">
+              <component id="ec295" class="javax.swing.JButton" binding="nextStepButton">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -109,7 +109,7 @@
                   <text value="Шаг вперед"/>
                 </properties>
               </component>
-              <component id="97429" class="javax.swing.JCheckBox" binding="выполнятьНепрерывноCheckBox" default-binding="true">
+              <component id="97429" class="javax.swing.JCheckBox" binding="continiousCheckBox">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>

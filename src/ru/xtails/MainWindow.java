@@ -18,10 +18,11 @@ public class MainWindow {
     private JPanel displayTab;
     private JPanel resultTab;
     private JPanel drawPanel;
-    private JButton начатьButton;
-    private JTextArea textArea1;
-    private JButton шагВпередButton;
-    private JCheckBox выполнятьНепрерывноCheckBox;
+    private JButton beginVisualizationButton;
+    private JTextArea hintTextArea;
+    private JButton nextStepButton;
+    private JCheckBox continiousCheckBox;
+    private JLabel visualizationHintLabel;
 
     public MainWindow() {
         openButton.addActionListener(new ActionListener() {
