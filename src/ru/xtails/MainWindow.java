@@ -28,6 +28,9 @@ public class MainWindow {
     private JButton stopButton;
 
     public MainWindow() {
+        nextStepButton.setEnabled(false);
+        stopButton.setEnabled(false);
+
         openButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,21 +83,26 @@ public class MainWindow {
                 if(continiousCheckBox.isSelected()) {
                     nextStepButton.setEnabled(false);
                 }
-                else{
-                    nextStepButton.setEnabled(true);
-                }
             }
         });
         beginVisualizationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 continiousCheckBox.setEnabled(false);
+                beginVisualizationButton.setEnabled(false);
+                stopButton.setEnabled(true);
+                if(!continiousCheckBox.isSelected()){
+                    nextStepButton.setEnabled(true);
+                }
             }
         });
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 continiousCheckBox.setEnabled(true);
+                beginVisualizationButton.setEnabled(true);
+                stopButton.setEnabled(false);
+                nextStepButton.setEnabled(false);
             }
         });
     }
