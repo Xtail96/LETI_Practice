@@ -20,7 +20,7 @@ public class Visualizer extends JPanel {
 
             Object v1 = graph.insertVertex(parent, null, "A", 20, 20, 80, 30, "shape=ellipse");
             Object v2 = graph.insertVertex(parent, null, "B", 240, 150, 80, 30, "shape=ellipse");
-            graph.insertEdge(parent, "E", null, v1, v2);
+            graph.insertEdge(parent, null, "", v1, v2);
 
 
         graph.getModel().endUpdate();
@@ -31,7 +31,7 @@ public class Visualizer extends JPanel {
 
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
         add(graphComponent);
-        Dimension dimension = new Dimension(700, 380);
+        Dimension dimension = new Dimension(800, 600);
         graphComponent.setPreferredSize(dimension);
 
     }
