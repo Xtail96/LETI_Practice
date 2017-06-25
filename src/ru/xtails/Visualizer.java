@@ -66,7 +66,7 @@ public class Visualizer extends JPanel {
         for(Vertex v1 : g.getPart1Vertices()) {
             Object vertex = graph.insertVertex(parent, null, v1.name, leftPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
             graphToGui.put(v1, vertex);
-            y += 2*vertexDiametr - vertexDiametr/2;
+            y += 1.5 * vertexDiametr;
         }
 
         // рисуем 2 долю
@@ -74,7 +74,7 @@ public class Visualizer extends JPanel {
         for(Vertex v2 : g.getPart2Vertices()){
             Object vertex = graph.insertVertex(parent, null, v2.name, rightPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
             graphToGui.put(v2, vertex);
-            y += 2*vertexDiametr - vertexDiametr/2;
+            y += 1.5 * vertexDiametr;
         }
 
         // соединяем вершины ребрами
