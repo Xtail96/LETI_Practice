@@ -17,14 +17,17 @@ public class Visualizer extends JPanel {
             Object v2 = graph.insertVertex(parent, "B", null, 240, 150, 80, 30);
             graph.insertEdge(parent, "E", null, v1, v2);
 
+
         graph.getModel().endUpdate();
 
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
         add(graphComponent);
+        Dimension dimension = new Dimension(700, 380);
+        graphComponent.setPreferredSize(dimension);
     }
 
     public void paintComponent(Graphics g){
-        this.setBackground(Color.white);
+        //this.setBackground(Color.white);
         /*
         g.setColor(Color.green);
         g.drawLine(10, 20, 100, 50);
