@@ -30,7 +30,7 @@ public class Main {
      * @return считанный граф
      */
     static Graph readGraph() {
-        // добавить реализацию
+        //добавить реализацию
         Graph g = new Graph();
         g.addEdge("A", "1");
         g.addEdge("B", "1");

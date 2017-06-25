@@ -63,6 +63,16 @@ public class MainWindow {
             }
         });
 
+        acceptButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                // проверка на то, что данные не пусты
+                String text = inputTextArea.getText();
+                if (text == null){
+                    JOptionPane.showMessageDialog(null, "Файл пустой!");
+                }
+            }
+        });
 
         drawPanel.setBackground(Color.white);
     }
