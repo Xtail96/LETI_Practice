@@ -75,8 +75,13 @@ public class MainWindow {
                 if (text.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Файл пустой!");
                 }
+                else {
+                    acceptGraph();
+                }
             }
         });
+
+
         continiousCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,5 +110,36 @@ public class MainWindow {
                 nextStepButton.setEnabled(false);
             }
         });
+    }
+
+    /**
+     * Считывает граф
+     * @return считанный граф
+     */
+    private Graph readGraph() {
+        Graph g = new Graph();
+        // добавить реализацию
+        g.addEdge("A", "1");
+        g.addEdge("B", "1");
+        g.addEdge("B", "2");
+        g.addEdge("C", "3");
+        g.addEdge("C", "4");
+        g.addEdge("D", "2");
+        g.addEdge("E", "1");
+        g.addEdge("E", "4");
+        g.addVertex("F");
+
+        return g;
+    }
+
+    private void acceptGraph(){
+        Graph g = readGraph();
+        try {
+            BiGraph result = new BiGraph(g);
+            visualizer1.setGraph(result);
+        } catch(IllegalArgumentException e) {
+            // вывод сообщения
+        }
+
     }
 }

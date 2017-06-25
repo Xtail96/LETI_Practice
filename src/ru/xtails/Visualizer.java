@@ -15,28 +15,7 @@ public class Visualizer extends JPanel {
     private BiGraph g;
     private mxGraphComponent graphComponent;
 
-    /**
-     * Считывает граф
-     * @return считанный граф
-     */
-    public BiGraph readGraph() {
-        // добавить реализацию
-        g.addEdge("A", "1");
-        g.addEdge("B", "1");
-        g.addEdge("B", "2");
-        g.addEdge("C", "3");
-        g.addEdge("C", "4");
-        g.addEdge("D", "2");
-        g.addEdge("E", "1");
-        g.addEdge("E", "4");
-        g.addVertex("F");
-        return g;
-    }
-
-    public Visualizer() {
-        g = new BiGraph();
-        g = readGraph();
-
+    Visualizer() {
         mxGraph graph = new mxGraph();
 
         graph.setCellsSelectable(false);
@@ -53,42 +32,50 @@ public class Visualizer extends JPanel {
         //update();
     }
 
-    public void update(){
-        mxGraph graph = graphComponent.getGraph();
-        Object parent = graph.getDefaultParent();
+    private void update(){
+        if(g != null) {
+            mxGraph graph = graphComponent.getGraph();
+            Object parent = graph.getDefaultParent();
 
-        graph.getModel().beginUpdate();
+            graph.getModel().beginUpdate();
 
-        HashMap<Vertex, Object> graphToGui = new HashMap<>();
+            HashMap<Vertex, Object> graphToGui = new HashMap<>();
 
-        // рисуем 1 долю
-        int y = vertexDiametr/2;
-        for(Vertex v1 : g.getPart1Vertices()) {
-            Object vertex = graph.insertVertex(parent, null, v1.name, leftPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
-            graphToGui.put(v1, vertex);
-            y += 1.5 * vertexDiametr;
-        }
-
-        // рисуем 2 долю
-        y = vertexDiametr/2;
-        for(Vertex v2 : g.getPart2Vertices()){
-            Object vertex = graph.insertVertex(parent, null, v2.name, rightPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
-            graphToGui.put(v2, vertex);
-            y += 1.5 * vertexDiametr;
-        }
-
-        // соединяем вершины ребрами
-        for(Vertex v1 : g.getPart1Vertices()){
-            for(Vertex v2 : g.getNeighbours(v1)){
-                Object vertex1 = graphToGui.get(v1), vertex2 = graphToGui.get(v2);
-                graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=#00bb00");
+            // рисуем 1 долю
+            int y = vertexDiametr/2;
+            for(Vertex v1 : g.getPart1Vertices()) {
+                Object vertex = graph.insertVertex(parent, null, v1.name, leftPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
+                graphToGui.put(v1, vertex);
+                y += 1.5 * vertexDiametr;
             }
-        }
 
-        graph.getModel().endUpdate();
+            // рисуем 2 долю
+            y = vertexDiametr/2;
+            for(Vertex v2 : g.getPart2Vertices()){
+                Object vertex = graph.insertVertex(parent, null, v2.name, rightPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
+                graphToGui.put(v2, vertex);
+                y += 1.5 * vertexDiametr;
+            }
+
+            // соединяем вершины ребрами
+            for(Vertex v1 : g.getPart1Vertices()){
+                for(Vertex v2 : g.getNeighbours(v1)){
+                    Object vertex1 = graphToGui.get(v1), vertex2 = graphToGui.get(v2);
+                    graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=#00bb00");
+                }
+            }
+
+            graph.getModel().endUpdate();
+        }
     }
 
     public void paintComponent(Graphics g){
         update();
     }
+
+    public void setGraph(BiGraph bg) {
+        g = bg;
+        update();
+    }
+
 }
