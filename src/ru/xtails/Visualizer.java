@@ -11,7 +11,7 @@ public class Visualizer extends JPanel {
 
     private final int leftPartX = 150;
     private final int rightPartX = 600;
-    private final int vertexRadius = 50;
+    private final int vertexDiametr = 50;
     private BiGraph g;
     private mxGraphComponent graphComponent;
 
@@ -62,19 +62,19 @@ public class Visualizer extends JPanel {
         HashMap<Vertex, Object> graphToGui = new HashMap<>();
 
         // рисуем 1 долю
-        int y = vertexRadius;
+        int y = vertexDiametr/2;
         for(Vertex v1 : g.getPart1Vertices()) {
-            Object vertex = graph.insertVertex(parent, null, v1.name, leftPartX, y, vertexRadius, vertexRadius, "shape=ellipse");
+            Object vertex = graph.insertVertex(parent, null, v1.name, leftPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
             graphToGui.put(v1, vertex);
-            y += 2 * vertexRadius;
+            y += 2*vertexDiametr - vertexDiametr/2;
         }
 
         // рисуем 2 долю
-        y = vertexRadius;
+        y = vertexDiametr/2;
         for(Vertex v2 : g.getPart2Vertices()){
-            Object vertex = graph.insertVertex(parent, null, v2.name, rightPartX, y, vertexRadius, vertexRadius, "shape=ellipse");
+            Object vertex = graph.insertVertex(parent, null, v2.name, rightPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
             graphToGui.put(v2, vertex);
-            y += 2 * vertexRadius;
+            y += 2*vertexDiametr - vertexDiametr/2;
         }
 
         // соединяем вершины ребрами
