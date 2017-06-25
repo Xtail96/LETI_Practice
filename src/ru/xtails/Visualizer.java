@@ -18,22 +18,22 @@ public class Visualizer extends JPanel {
 
         graph.getModel().beginUpdate();
 
-            Object v1 = graph.insertVertex(parent, null, "A", 20, 20, 80, 30, "shape=ellipse");
-            Object v2 = graph.insertVertex(parent, null, "B", 240, 150, 80, 30, "shape=ellipse");
+            Object v1 = graph.insertVertex(parent, null, "A", 10, 10, 50, 50, "shape=ellipse");
+            Object v2 = graph.insertVertex(parent, null, "B", 150, 250, 50, 50, "shape=ellipse");
             graph.insertEdge(parent, null, "", v1, v2);
-
 
         graph.getModel().endUpdate();
 
 
-        graph.setLabelsVisible(true);
-        graph.setEnabled(false);
+        graph.setCellsSelectable(false);
+        graph.setCellsEditable(false);
 
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
-        add(graphComponent);
-        Dimension dimension = new Dimension(800, 600);
-        graphComponent.setPreferredSize(dimension);
+        graphComponent.setConnectable(false);
+        graphComponent.setAutoScroll(true);
+        graphComponent.setPreferredSize(new Dimension(800, 600));
 
+        add(graphComponent);
     }
 
     public void paintComponent(Graphics g){
