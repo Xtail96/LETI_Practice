@@ -50,6 +50,17 @@ public class DirectedGraph {
     }
 
     /**
+     * Обнуляет состояние вершин графа
+     */
+    public void reset() {
+        for (Vertex v : getVertices()) {
+            v.visited = false;
+            v.predecessor = null;
+            v.color = 0;
+        }
+    }
+
+    /**
      * Добавляет новую вершину без соседей по имени (если в графе нет вершины с таким же именем)
      * @param name Имя добавляемой вершины
      * @return Возвращает добавленную вершину, либо уже существующую в графе вершину
