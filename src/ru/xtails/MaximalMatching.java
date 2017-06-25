@@ -3,7 +3,7 @@ package ru.xtails;
 import javax.swing.*;
 
 public class MaximalMatching extends JFrame {
-    MaximalMatching() {
+    public MaximalMatching() {
         setTitle("Maximal Matching");
         setContentPane(new MainWindow().mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -11,5 +11,4 @@ public class MaximalMatching extends JFrame {
         setResizable(false);
         setVisible(true);
     }
-
 }

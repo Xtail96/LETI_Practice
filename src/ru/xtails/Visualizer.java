@@ -4,18 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-import com.mxgraph.model.mxGeometry;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
-import javafx.scene.shape.Circle;
 
 public class Visualizer extends JPanel {
 
-    final int leftPartX = 150;
-    final int rightPartX = 600;
-    final int vertexRadius = 50;
-    BiGraph g;
-    mxGraphComponent graphComponent;
+    private final int leftPartX = 150;
+    private final int rightPartX = 600;
+    private final int vertexRadius = 50;
+    private BiGraph g;
+    private mxGraphComponent graphComponent;
 
     /**
      * Считывает граф
@@ -42,6 +40,7 @@ public class Visualizer extends JPanel {
         mxGraph graph = new mxGraph();
 
         graph.setCellsSelectable(false);
+        graph.setCellsBendable(false);
         graph.setCellsEditable(false);
 
         graphComponent = new mxGraphComponent(graph);
@@ -51,7 +50,7 @@ public class Visualizer extends JPanel {
 
         add(graphComponent);
 
-        update();
+        //update();
     }
 
     public void update(){
@@ -60,17 +59,12 @@ public class Visualizer extends JPanel {
 
         graph.getModel().beginUpdate();
 
-
         HashMap<Vertex, Object> graphToGui = new HashMap<>();
 
         // рисуем 1 долю
         int y = vertexRadius;
         for(Vertex v1 : g.getPart1Vertices()) {
             Object vertex = graph.insertVertex(parent, null, v1.name, leftPartX, y, vertexRadius, vertexRadius, "shape=ellipse");
-            /*for(Vertex v2 : g.getNeighbours(v1)) {
-                Object vertex2 = graph.insertVertex(parent, null, v2.name, rightPartX, y, vertexRadius, vertexRadius, "shape=ellipse");
-                graph.insertEdge(parent, null, "", vertex1, vertex2);
-            }*/
             graphToGui.put(v1, vertex);
             y += 2 * vertexRadius;
         }
