@@ -68,7 +68,7 @@ public class MainWindow {
             public void actionPerformed(ActionEvent actionEvent) {
                 // проверка на то, что данные не пусты
                 String text = inputTextArea.getText();
-                if (text == null){
+                if (text.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Файл пустой!");
                 }
             }
