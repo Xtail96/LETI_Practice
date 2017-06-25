@@ -118,17 +118,17 @@ public class MainWindow {
      */
     private Graph readGraph() {
         Graph g = new Graph();
-        // добавить реализацию
-        g.addEdge("A", "1");
-        g.addEdge("B", "1");
-        g.addEdge("B", "2");
-        g.addEdge("C", "3");
-        g.addEdge("C", "4");
-        g.addEdge("D", "2");
-        g.addEdge("E", "1");
-        g.addEdge("E", "4");
-        g.addVertex("F");
-
+        String str = inputTextArea.getText();
+        String lines[] = str.split("\\r?\\n");
+        for (String line:lines){
+            String elements[] = line.split("\\s+");
+            if (elements.length == 2) {
+                g.addEdge(elements[0], elements[1]);
+            }
+            else {
+                throw new IllegalArgumentException("Неверный формат ввода");
+            }
+        }
         return g;
     }
 
@@ -139,6 +139,7 @@ public class MainWindow {
             visualizer1.setGraph(result);
         } catch(IllegalArgumentException e) {
             // вывод сообщения
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
     }
