@@ -10,6 +10,11 @@ import javafx.scene.shape.Circle;
 
 public class Visualizer extends JPanel {
 
+    final int leftPartX = 150;
+    final int rightPartX = 600;
+    final int vertexRadius = 50;
+
+
     public Visualizer() {
         mxGraph graph = new mxGraph();
         Object parent = graph.getDefaultParent();
@@ -18,8 +23,8 @@ public class Visualizer extends JPanel {
 
         graph.getModel().beginUpdate();
 
-            Object v1 = graph.insertVertex(parent, null, "A", 10, 10, 50, 50, "shape=ellipse");
-            Object v2 = graph.insertVertex(parent, null, "B", 150, 250, 50, 50, "shape=ellipse");
+            Object v1 = graph.insertVertex(parent, null, "A", leftPartX, 10, vertexRadius, vertexRadius, "shape=ellipse");
+            Object v2 = graph.insertVertex(parent, null, "B", rightPartX, 10, vertexRadius, vertexRadius, "shape=ellipse");
             graph.insertEdge(parent, null, "", v1, v2);
 
         graph.getModel().endUpdate();
