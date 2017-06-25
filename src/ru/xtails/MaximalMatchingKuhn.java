@@ -7,15 +7,17 @@ import java.util.HashMap;
  */
 public class MaximalMatchingKuhn implements Runnable {
     private volatile boolean running = true;
-    private volatile boolean paused = false;
+    private volatile boolean paused = true;
+    private final boolean continuous;
     private final Object pauseLock = new Object();
     // исходный граф
-    BiGraph graph;
+    private BiGraph graph;
     // текущее паросочетание
-    HashMap<Vertex, Vertex> matching;
+    private HashMap<Vertex, Vertex> matching;
 
-    public MaximalMatchingKuhn(BiGraph g) {
+    public MaximalMatchingKuhn(BiGraph g, boolean continuous) {
         graph = g;
+        this.continuous = continuous;
     }
 
     /**
@@ -23,16 +25,23 @@ public class MaximalMatchingKuhn implements Runnable {
      */
     @Override
     public void run() {
+        System.out.println("I'm running!");
+        matching = new HashMap<>();
+
         // для каждой вершины пытаемся найти увеличивающуюся цепь
         for (Vertex v : graph.getVertices()) {
             if (running) {
+                System.out.println("Vertex " + v);
                 graph.reset();
                 dfs(v);
+                checkForPaused();
             } else {
                 // завершаемся
-                return;
+                break;
             }
         }
+
+        System.out.println("Finished");
     }
 
     /**
@@ -56,15 +65,17 @@ public class MaximalMatchingKuhn implements Runnable {
     }
 
     /**
-     * Приостанавливает выполнение алгоритма, если поле paused == true
+     * Приостанавливает пошаговое выполнение алгоритма, если поле paused == true
      */
     private void checkForPaused() {
-        synchronized (pauseLock) {
-            while (paused) {
-                try {
-                    pauseLock.wait();
-                } catch (InterruptedException e) {
-                    break;
+        if (!continuous) {
+            synchronized (pauseLock) {
+                if (paused) {
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException e) {
+
+                    }
                 }
             }
         }

@@ -14,6 +14,8 @@ public class Visualizer extends JPanel {
     private final int vertexDiametr = 50;
     private BiGraph g;
     private mxGraphComponent graphComponent;
+    private MaximalMatchingKuhn algorithm;
+    private Thread algorithmThread;
 
     Visualizer() {
         mxGraph graph = new mxGraph();
@@ -78,4 +80,17 @@ public class Visualizer extends JPanel {
         update();
     }
 
+    public void start(boolean continuous) {
+        algorithm = new MaximalMatchingKuhn(g, continuous);
+        algorithmThread = new Thread(algorithm);
+        algorithmThread.start();
+    }
+
+    public void stop() {
+        algorithm.stop();
+    }
+
+    public void step() {
+        algorithm.step();
+    }
 }

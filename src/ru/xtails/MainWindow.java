@@ -93,12 +93,16 @@ public class MainWindow {
         beginVisualizationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean continuousRunning = continiousCheckBox.isSelected();
+
                 continiousCheckBox.setEnabled(false);
                 beginVisualizationButton.setEnabled(false);
                 stopButton.setEnabled(true);
                 if(!continiousCheckBox.isSelected()){
                     nextStepButton.setEnabled(true);
                 }
+
+                visualizer1.start(continuousRunning);
             }
         });
         stopButton.addActionListener(new ActionListener() {
@@ -108,6 +112,14 @@ public class MainWindow {
                 beginVisualizationButton.setEnabled(true);
                 stopButton.setEnabled(false);
                 nextStepButton.setEnabled(false);
+
+                visualizer1.stop();
+            }
+        });
+        nextStepButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                visualizer1.step();
             }
         });
     }
