@@ -25,6 +25,7 @@ public class MainWindow {
     private JCheckBox continiousCheckBox;
     private JLabel visualizationHintLabel;
     private Visualizer visualizer1;
+    private JButton stopButton;
 
     public MainWindow() {
         openButton.addActionListener(new ActionListener() {
@@ -71,6 +72,29 @@ public class MainWindow {
                 if (text.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Файл пустой!");
                 }
+            }
+        });
+        continiousCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(continiousCheckBox.isSelected()) {
+                    nextStepButton.setEnabled(false);
+                }
+                else{
+                    nextStepButton.setEnabled(true);
+                }
+            }
+        });
+        beginVisualizationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                continiousCheckBox.setEnabled(false);
+            }
+        });
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                continiousCheckBox.setEnabled(true);
             }
         });
     }
