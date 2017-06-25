@@ -39,6 +39,9 @@ public class Visualizer extends JPanel {
             mxGraph graph = graphComponent.getGraph();
             Object parent = graph.getDefaultParent();
 
+            // удаляем все элементы графа
+            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
+            // начинаем перерисовывать граф
             graph.getModel().beginUpdate();
 
             HashMap<Vertex, Object> graphToGui = new HashMap<>();
