@@ -133,8 +133,8 @@ public class MainWindow {
     }
 
     private void acceptGraph(){
-        Graph g = readGraph();
         try {
+            Graph g = readGraph();
             BiGraph result = new BiGraph(g);
             visualizer1.setGraph(result);
         } catch(IllegalArgumentException e) {
