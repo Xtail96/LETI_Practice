@@ -57,7 +57,7 @@ public class MainWindow implements AlgorithmEvent {
                         while((line = reader.readLine()) != null)
                         {
                             content += line;
-                            content += '\n';
+                            content += System.lineSeparator();
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -101,6 +101,7 @@ public class MainWindow implements AlgorithmEvent {
                 if(!continiousCheckBox.isSelected()){
                     nextStepButton.setEnabled(true);
                 }
+                hintTextArea.setText("");
 
                 startVisualization(continuousRunning);
             }
@@ -143,6 +144,12 @@ public class MainWindow implements AlgorithmEvent {
     public void finishEvent() {
         String result = visualizer1.getAlgorithmResult();
         resultTextArea.setText(result);
+        hintTextArea.append("Algorithm Finished");
+
+        stopButton.setEnabled(false);
+        beginVisualizationButton.setEnabled(true);
+        continiousCheckBox.setEnabled(true);
+        nextStepButton.setEnabled(false);
     }
 
     /**

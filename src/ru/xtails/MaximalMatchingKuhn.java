@@ -80,7 +80,7 @@ public class MaximalMatchingKuhn implements Runnable {
 
         for (Vertex v1 : graph.getPart1Vertices()) {
             if (matching.containsKey(v1)) {
-                s += (v1 + " " + matching.get(v1));
+                s += (v1 + " " + matching.get(v1) + System.lineSeparator());
             }
         }
 
