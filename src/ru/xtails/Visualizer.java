@@ -17,6 +17,9 @@ public class Visualizer extends JPanel {
     private MaximalMatchingKuhn algorithm;
     private Thread algorithmThread;
 
+    private Vertex activeEdgeV1, activeEdgeV2;
+
+
     Visualizer() {
         mxGraph graph = new mxGraph();
 
@@ -66,12 +69,25 @@ public class Visualizer extends JPanel {
             for(Vertex v1 : g.getPart1Vertices()){
                 for(Vertex v2 : g.getNeighbours(v1)){
                     Object vertex1 = graphToGui.get(v1), vertex2 = graphToGui.get(v2);
-                    graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=#00bb00");
+                    graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=" + getEdgeColor(v1, v2));
                 }
             }
 
             graph.getModel().endUpdate();
         }
+    }
+
+    public void setActiveEdge(Vertex v1, Vertex v2){
+        activeEdgeV1 = v1;
+        activeEdgeV2 = v2;
+    }
+
+    public String getEdgeColor(Vertex v1, Vertex v2){
+        String color = "#000";
+        if( (v1 == activeEdgeV1 && v2 == activeEdgeV2) || (v1 == activeEdgeV2 && v2 == activeEdgeV1) ){
+            color = "#4682B4";
+        }
+        return color;
     }
 
     public void paintComponent(Graphics g){

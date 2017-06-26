@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.HashMap;
 
 public class MainWindow implements AlgorithmEvent {
     JButton openButton;
@@ -150,6 +151,17 @@ public class MainWindow implements AlgorithmEvent {
         beginVisualizationButton.setEnabled(true);
         continiousCheckBox.setEnabled(true);
         nextStepButton.setEnabled(false);
+    }
+
+    @Override
+    public void activeEdgeChanged(Vertex v1, Vertex v2){
+        visualizer1.setActiveEdge(v1, v2);
+        visualizer1.update();
+    }
+
+    @Override
+    public void matchingChanged(final HashMap<Vertex, Vertex> matching){
+        
     }
 
     /**
