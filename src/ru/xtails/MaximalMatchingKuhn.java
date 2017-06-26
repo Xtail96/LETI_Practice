@@ -58,9 +58,12 @@ public class MaximalMatchingKuhn implements Runnable {
         root.visited = true;
 
         for (Vertex to : graph.getNeighbours(root)) {
+            sendActiveEdgeChanged(root, to);
+
             if (!matching.containsKey(to) || dfs(matching.get(to))) {
                 // если удалось найти увеличивающуюся цепь, добавляем ребро в текущее паросочетание
                 matching.put(to, root);
+
                 return true;
             }
         }
@@ -160,6 +163,18 @@ public class MaximalMatchingKuhn implements Runnable {
     private void sendStep() {
         for (AlgorithmEvent listener : listeners) {
             listener.stepEvent();
+        }
+    }
+
+    private void sendActiveEdgeChanged(Vertex v1, Vertex v2) {
+        for (AlgorithmEvent listener : listeners) {
+            listener.activeEdgeChanged(v1, v2);
+        }
+    }
+
+    private void sendMatchingChanged() {
+        for (AlgorithmEvent listener : listeners) {
+            listener.matchingChanged(matching);
         }
     }
 }
