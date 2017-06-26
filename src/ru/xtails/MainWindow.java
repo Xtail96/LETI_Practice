@@ -124,6 +124,33 @@ public class MainWindow implements AlgorithmEvent {
                 visualizer1.step();
             }
         });
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Text", "txt");
+                fileChooser.setFileFilter(filter);
+                int result = fileChooser.showOpenDialog(null);
+
+                String name = fileChooser.getSelectedFile().getName();
+                String absolutePath = fileChooser.getSelectedFile().getAbsolutePath();
+
+                File file = new File(absolutePath);
+                try {
+                    FileOutputStream resFile = new FileOutputStream(file);
+                    ObjectOutputStream content = new ObjectOutputStream(resFile);
+                    String res = resultTextArea.getText();
+                    content.writeObject(res);
+                } catch (FileNotFoundException e) {
+                    JOptionPane.showMessageDialog(null, "Не удалось создать файл!");
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Проблема с записью в файл");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void startVisualization(boolean continuos) {
