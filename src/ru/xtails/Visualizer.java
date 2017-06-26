@@ -85,7 +85,7 @@ public class Visualizer extends JPanel {
     public String getEdgeColor(Vertex v1, Vertex v2){
         String color = "#000";
         if( (v1 == activeEdgeV1 && v2 == activeEdgeV2) || (v1 == activeEdgeV2 && v2 == activeEdgeV1) ){
-            color = "#4682B4";
+            color = "#0000FF";
         }
         return color;
     }

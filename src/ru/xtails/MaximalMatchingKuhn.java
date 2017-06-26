@@ -59,6 +59,7 @@ public class MaximalMatchingKuhn implements Runnable {
 
         for (Vertex to : graph.getNeighbours(root)) {
             sendActiveEdgeChanged(root, to);
+            checkForPaused();
 
             if (!matching.containsKey(to) || dfs(matching.get(to))) {
                 // если удалось найти увеличивающуюся цепь, добавляем ребро в текущее паросочетание
@@ -105,6 +106,12 @@ public class MaximalMatchingKuhn implements Runnable {
 
                     }
                 }
+            }
+        } else {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
