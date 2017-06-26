@@ -34,7 +34,7 @@ public class Visualizer extends JPanel {
         //update();
     }
 
-    private void update(){
+    public void update(){
         if(g != null) {
             mxGraph graph = graphComponent.getGraph();
             Object parent = graph.getDefaultParent();

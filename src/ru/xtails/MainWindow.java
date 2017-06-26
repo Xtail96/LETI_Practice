@@ -136,7 +136,7 @@ public class MainWindow implements AlgorithmEvent {
 
     @Override
     public void stepEvent() {
-        visualizer1.repaint();
+        visualizer1.update();
     }
 
     @Override
