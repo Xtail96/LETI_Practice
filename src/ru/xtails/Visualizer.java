@@ -83,13 +83,14 @@ public class Visualizer extends JPanel {
         update();
     }
 
-    public void start(boolean continuous) {
+    public void start(boolean continuous, AlgorithmEvent listener) {
         if (algorithm != null) {
             // останавливаем поток, если он был запущен
             algorithm.stop();
         }
 
         algorithm = new MaximalMatchingKuhn(g, continuous);
+        algorithm.addListener(listener);
         algorithmThread = new Thread(algorithm);
         algorithmThread.start();
     }
@@ -100,5 +101,9 @@ public class Visualizer extends JPanel {
 
     public void step() {
         algorithm.step();
+    }
+
+    public String getAlgorithmResult() {
+        return algorithm.getMatching();
     }
 }

@@ -1,11 +1,14 @@
 package ru.xtails;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Реализация алгоритма Куна для поиска наибольшего паросочетания в графе (в отдельном потоке)
  */
 public class MaximalMatchingKuhn implements Runnable {
+    private ArrayList<AlgorithmEvent> listeners = new ArrayList<>();
+
     private volatile boolean running = true;
     private volatile boolean paused = true;
     private final boolean continuous;
@@ -25,13 +28,13 @@ public class MaximalMatchingKuhn implements Runnable {
      */
     @Override
     public void run() {
-        System.out.println("I'm running!");
+        sendHint("I'm running!");
         matching = new HashMap<>();
 
         // для каждой вершины пытаемся найти увеличивающуюся цепь
         for (Vertex v : graph.getVertices()) {
             if (running) {
-                System.out.println("Vertex " + v);
+                sendHint("Vertex " + v);
                 graph.reset();
                 dfs(v);
                 checkForPaused();
@@ -41,7 +44,7 @@ public class MaximalMatchingKuhn implements Runnable {
             }
         }
 
-        System.out.println("Finished");
+        sendFinished();
     }
 
     /**
@@ -64,11 +67,33 @@ public class MaximalMatchingKuhn implements Runnable {
         return false;
     }
 
+    public void addListener(AlgorithmEvent listener) {
+        System.out.println(listener);
+        listeners.add(listener);
+    }
+
+    /**
+     * @return текущее паросочетание
+     */
+    public String getMatching() {
+        String s = "";
+
+        for (Vertex v1 : graph.getPart1Vertices()) {
+            if (matching.containsKey(v1)) {
+                s += (v1 + " " + matching.get(v1));
+            }
+        }
+
+        return s;
+    }
+
     /**
      * Приостанавливает пошаговое выполнение алгоритма, если поле paused == true
      */
     private void checkForPaused() {
         if (!continuous) {
+            sendStep();
+
             synchronized (pauseLock) {
                 if (paused) {
                     try {
@@ -113,6 +138,28 @@ public class MaximalMatchingKuhn implements Runnable {
         synchronized (pauseLock) {
             paused = true;
             pauseLock.notify();
+        }
+    }
+
+    /**
+     * Посылает событие - пояснение к алгоритму
+     * @param hint пояснение
+     */
+    private void sendHint(String hint) {
+        for (AlgorithmEvent listener : listeners) {
+            listener.hintEvent(hint);
+        }
+    }
+
+    private void sendFinished() {
+        for (AlgorithmEvent listener : listeners) {
+            listener.finishEvent();
+        }
+    }
+
+    private void sendStep() {
+        for (AlgorithmEvent listener : listeners) {
+            listener.stepEvent();
         }
     }
 }

@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-public class MainWindow {
+public class MainWindow implements AlgorithmEvent {
     JButton openButton;
     JPanel mainPanel;
     private JTextArea inputTextArea;
@@ -102,7 +102,7 @@ public class MainWindow {
                     nextStepButton.setEnabled(true);
                 }
 
-                visualizer1.start(continuousRunning);
+                startVisualization(continuousRunning);
             }
         });
         stopButton.addActionListener(new ActionListener() {
@@ -122,6 +122,27 @@ public class MainWindow {
                 visualizer1.step();
             }
         });
+    }
+
+    public void startVisualization(boolean continuos) {
+        visualizer1.start(continuos, this);
+    }
+
+    // Реализация интерфейса AlgorithmEvent
+    @Override
+    public void hintEvent(String hint) {
+        hintTextArea.append(hint + System.lineSeparator());
+    }
+
+    @Override
+    public void stepEvent() {
+        visualizer1.repaint();
+    }
+
+    @Override
+    public void finishEvent() {
+        String result = visualizer1.getAlgorithmResult();
+        resultTextArea.setText(result);
     }
 
     /**
