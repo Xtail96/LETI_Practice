@@ -31,20 +31,22 @@ public class MaximalMatchingKuhn implements Runnable {
         sendHint("Алгоритм запущен", 0);
         matching = new HashMap<>();
 
-        // для каждой вершины пытаемся найти увеличивающуюся цепь
-        for (Vertex v : graph.getVertices()) {
-            if (running) {
-                sendHint(System.lineSeparator() + "Запускаем DFS из вершины " + v, 0);
+        if (graph != null) {
+            // для каждой вершины пытаемся найти увеличивающуюся цепь
+            for (Vertex v : graph.getVertices()) {
+                if (running) {
+                    sendHint(System.lineSeparator() + "Запускаем DFS из вершины " + v, 0);
 
-                graph.reset();
-                dfs(v, 0);
+                    graph.reset();
+                    dfs(v, 0);
 
-            } else {
-                // завершаемся
-                break;
+                } else {
+                    // завершаемся
+                    break;
+                }
             }
         }
-
+        
         sendHint(System.lineSeparator() + "Алгоритм завершен", 0);
         sendActiveEdgeChanged(null, null);
         sendFinished();

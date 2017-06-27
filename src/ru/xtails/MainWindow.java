@@ -32,6 +32,7 @@ public class MainWindow implements AlgorithmEvent {
     private JScrollPane inputScrollPane;
 
     public MainWindow() {
+        beginVisualizationButton.setEnabled(false);
         nextStepButton.setEnabled(false);
         stopButton.setEnabled(false);
 
@@ -222,6 +223,7 @@ public class MainWindow implements AlgorithmEvent {
             Graph g = readGraph();
             BiGraph result = new BiGraph(g);
             visualizer1.setGraph(result);
+            beginVisualizationButton.setEnabled(true);
         } catch(IllegalArgumentException e) {
             // вывод сообщения
             JOptionPane.showMessageDialog(null, e.getMessage());
