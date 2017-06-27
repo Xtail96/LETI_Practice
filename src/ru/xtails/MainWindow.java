@@ -27,6 +27,9 @@ public class MainWindow implements AlgorithmEvent {
     private JLabel visualizationHintLabel;
     private Visualizer visualizer1;
     private JButton stopButton;
+    private JScrollPane hintScrollPane;
+    private JScrollPane resultScrolPane;
+    private JScrollPane inputScrollPane;
 
     public MainWindow() {
         nextStepButton.setEnabled(false);
