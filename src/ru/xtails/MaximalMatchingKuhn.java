@@ -34,16 +34,19 @@ public class MaximalMatchingKuhn implements Runnable {
         // для каждой вершины пытаемся найти увеличивающуюся цепь
         for (Vertex v : graph.getVertices()) {
             if (running) {
-                sendHint(System.lineSeparator() + "Текущая вершина: " + v, 0);
+                sendHint(System.lineSeparator() + "Запускаем DFS из вершины " + v, 0);
+
                 graph.reset();
                 dfs(v, 0);
-                checkForPaused();
+
             } else {
                 // завершаемся
                 break;
             }
         }
+
         sendHint(System.lineSeparator() + "Алгоритм завершен", 0);
+        sendActiveEdgeChanged(null, null);
         sendFinished();
     }
 
@@ -53,14 +56,18 @@ public class MaximalMatchingKuhn implements Runnable {
      * @return true, если удалось улучшеть текущее паросочетание, иначе false
      */
     private boolean dfs(Vertex root, int depth) {
-        if (root.visited)
+        if (root.visited) {
+            sendHint("Вершина " + root + " уже была посещена, не рассматриваем", depth);
             return false;
+        }
+        sendHint("Рассматриваем вершину " + root, depth);
+        // помечаем вершину как отмеченную
         root.visited = true;
 
         for (Vertex to : graph.getNeighbours(root)) {
             sendActiveEdgeChanged(root, to);
+            sendHint("Пытаемся найти увеличивающуюся цепь через вершину " + to, depth);
             sendHint("Текущее ребро: " + root + " " + to, depth);
-            checkForPaused();
 
             if (!matching.containsKey(to) || dfs(matching.get(to), depth + 1)) {
                 // если удалось найти увеличивающуюся цепь, добавляем ребро в текущее паросочетание
@@ -169,6 +176,8 @@ public class MaximalMatchingKuhn implements Runnable {
         for (AlgorithmEvent listener : listeners) {
             listener.hintEvent(hint);
         }
+
+        checkForPaused();
     }
 
     private void sendFinished() {
