@@ -137,13 +137,16 @@ public class MainWindow implements AlgorithmEvent {
                 String absolutePath = fileChooser.getSelectedFile().getAbsolutePath();
 
                 File file = new File(absolutePath);
+
                 try {
-                    FileOutputStream resFile = new FileOutputStream(file);
-                    ObjectOutputStream content = new ObjectOutputStream(resFile);
-                    String res = resultTextArea.getText();
-                    content.writeObject(res);
-                } catch (FileNotFoundException e) {
-                    JOptionPane.showMessageDialog(null, "Не удалось создать файл!");
+                    try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                            new FileOutputStream(file), "UTF8"))) {
+                        String res = resultTextArea.getText();
+                        bw.write(res);
+                        bw.flush();
+                    }
+                } catch (UnsupportedEncodingException | FileNotFoundException e) {
+                    JOptionPane.showMessageDialog(null, "Не удалось найти файл!");
                     e.printStackTrace();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Проблема с записью в файл");
