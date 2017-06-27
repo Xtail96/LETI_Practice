@@ -28,22 +28,22 @@ public class MaximalMatchingKuhn implements Runnable {
      */
     @Override
     public void run() {
-        sendHint("Алгоритм запущен");
+        sendHint("Алгоритм запущен", 0);
         matching = new HashMap<>();
 
         // для каждой вершины пытаемся найти увеличивающуюся цепь
         for (Vertex v : graph.getVertices()) {
             if (running) {
-                sendHint(System.lineSeparator() + "Текущая вершина: " + v);
+                sendHint(System.lineSeparator() + "Текущая вершина: " + v, 0);
                 graph.reset();
-                dfs(v);
+                dfs(v, 0);
                 checkForPaused();
             } else {
                 // завершаемся
                 break;
             }
         }
-        sendHint(System.lineSeparator() + "Алгоритм завершен");
+        sendHint(System.lineSeparator() + "Алгоритм завершен", 0);
         sendFinished();
     }
 
@@ -52,26 +52,26 @@ public class MaximalMatchingKuhn implements Runnable {
      * @param root вершина, из которой будет запущен обход
      * @return true, если удалось улучшеть текущее паросочетание, иначе false
      */
-    private boolean dfs(Vertex root) {
+    private boolean dfs(Vertex root, int depth) {
         if (root.visited)
             return false;
         root.visited = true;
 
         for (Vertex to : graph.getNeighbours(root)) {
             sendActiveEdgeChanged(root, to);
-            sendHint("Текущее ребро: " + root + " " + to);
+            sendHint("Текущее ребро: " + root + " " + to, depth);
             checkForPaused();
 
-            if (!matching.containsKey(to) || dfs(matching.get(to))) {
+            if (!matching.containsKey(to) || dfs(matching.get(to), depth + 1)) {
                 // если удалось найти увеличивающуюся цепь, добавляем ребро в текущее паросочетание
-                sendHint("Удалось найти увеличивающуюся цепь, добавляем ребро " + root + " " + to + " в паросочетание");
+                sendHint("Удалось найти увеличивающуюся цепь. Добавляем ребро " + root + " " + to + " в паросочетание", depth);
                 matching.put(to, root);
                 sendMatchingChanged();
                 return true;
             }
             else
             {
-                sendHint("Ребро " + root + " " + to + " в паросочетание НЕ добавлено");
+                sendHint("НЕ удалось найти увеличивающуюся цепь. Ребро " + root + " " + to + " в паросочетание НЕ добавлено", depth);
             }
         }
         return false;
@@ -161,7 +161,11 @@ public class MaximalMatchingKuhn implements Runnable {
      * Посылает событие - пояснение к алгоритму
      * @param hint пояснение
      */
-    private void sendHint(String hint) {
+    private void sendHint(String hint, int depth) {
+        for(int i = 0; i < depth; i++) {
+            hint = "| " + hint;
+        }
+
         for (AlgorithmEvent listener : listeners) {
             listener.hintEvent(hint);
         }
