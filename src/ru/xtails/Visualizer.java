@@ -18,6 +18,7 @@ public class Visualizer extends JPanel {
     private Thread algorithmThread;
 
     private Vertex activeEdgeV1, activeEdgeV2;
+    private HashMap<Vertex, Vertex> currentMatching;
 
 
     Visualizer() {
@@ -82,10 +83,21 @@ public class Visualizer extends JPanel {
         activeEdgeV2 = v2;
     }
 
+    public void setCurrentMatching(HashMap<Vertex, Vertex> matching){
+        currentMatching = matching;
+    }
+
     public String getEdgeColor(Vertex v1, Vertex v2){
         String color = "#000";
         if( (v1 == activeEdgeV1 && v2 == activeEdgeV2) || (v1 == activeEdgeV2 && v2 == activeEdgeV1) ){
             color = "#0000FF";
+        }
+        else{
+            if(currentMatching != null) {
+                if (currentMatching.containsKey(v1) && (currentMatching.get(v1) == v2)) {
+                    color = "#00bb00";
+                }
+            }
         }
         return color;
     }

@@ -28,13 +28,13 @@ public class MaximalMatchingKuhn implements Runnable {
      */
     @Override
     public void run() {
-        sendHint("I'm running!");
+        sendHint("Алгоритм запущен");
         matching = new HashMap<>();
 
         // для каждой вершины пытаемся найти увеличивающуюся цепь
         for (Vertex v : graph.getVertices()) {
             if (running) {
-                sendHint("Vertex " + v);
+                sendHint(System.lineSeparator() + "Текущая вершина: " + v);
                 graph.reset();
                 dfs(v);
                 checkForPaused();
@@ -43,7 +43,7 @@ public class MaximalMatchingKuhn implements Runnable {
                 break;
             }
         }
-
+        sendHint(System.lineSeparator() + "Алгоритм завершен");
         sendFinished();
     }
 
@@ -59,12 +59,14 @@ public class MaximalMatchingKuhn implements Runnable {
 
         for (Vertex to : graph.getNeighbours(root)) {
             sendActiveEdgeChanged(root, to);
+            sendHint("Текущее ребро: " + root + " " + to);
             checkForPaused();
 
             if (!matching.containsKey(to) || dfs(matching.get(to))) {
                 // если удалось найти увеличивающуюся цепь, добавляем ребро в текущее паросочетание
+                //sendHint("Удалось найти увеличивающуюся цепь, добавляем ребро " + root + " " + to + "в паросочетание");
                 matching.put(to, root);
-
+                sendMatchingChanged();
                 return true;
             }
         }
@@ -109,7 +111,7 @@ public class MaximalMatchingKuhn implements Runnable {
             }
         } else {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

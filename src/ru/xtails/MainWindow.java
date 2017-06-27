@@ -175,7 +175,6 @@ public class MainWindow implements AlgorithmEvent {
     public void finishEvent() {
         String result = visualizer1.getAlgorithmResult();
         resultTextArea.setText(result);
-        hintTextArea.append("Algorithm Finished");
 
         stopButton.setEnabled(false);
         beginVisualizationButton.setEnabled(true);
@@ -191,7 +190,8 @@ public class MainWindow implements AlgorithmEvent {
 
     @Override
     public void matchingChanged(final HashMap<Vertex, Vertex> matching){
-        
+        visualizer1.setCurrentMatching(matching);
+        visualizer1.update();
     }
 
     /**
