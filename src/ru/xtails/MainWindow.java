@@ -163,6 +163,10 @@ public class MainWindow implements AlgorithmEvent {
     }
 
     public void startVisualization(boolean continuos) {
+        // очищаем результаты предыдущей работы алгоритма
+        visualizer1.setActiveEdge(null, null);
+        visualizer1.setCurrentMatching(null);
+
         visualizer1.start(continuos, this);
     }
 

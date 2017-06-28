@@ -141,6 +141,8 @@ public class Visualizer extends JPanel {
         algorithm.addListener(listener);
         algorithmThread = new Thread(algorithm);
         algorithmThread.start();
+
+        update();
     }
 
     public void stop() {
