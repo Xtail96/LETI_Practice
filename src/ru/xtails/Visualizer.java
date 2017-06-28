@@ -12,7 +12,7 @@ public class Visualizer extends JPanel {
     private final int leftPartX = 150;
     private final int rightPartX = 600;
     private final int vertexRadius = 25;
-    private final int vertexDiametr = 2 * vertexRadius;
+    private final int vertexDiameter = 2 * vertexRadius;
 
     private BiGraph g = new BiGraph();
     private mxGraphComponent graphComponent;
@@ -56,11 +56,11 @@ public class Visualizer extends JPanel {
             int y1 = vertexRadius;
             int y2 = y1;
 
-            for(Vertex v1 : g.getVertices()) {
+            for(Vertex v : g.getVertices()) {
                 int x = 0;
                 int y = 0;
 
-                if (g.isVertexInPart1(v1)) {
+                if (g.isVertexInPart1(v)) {
                     // находится в первой доле
                     x = leftPartX;
                     y = y1;
@@ -73,8 +73,8 @@ public class Visualizer extends JPanel {
                 }
 
                 // отрисовываем вершину
-                Object vertex = graph.insertVertex(parent, null, v1.name, x, y, vertexDiametr, vertexDiametr, "shape=ellipse");
-                graphToGui.put(v1, vertex);
+                Object vertex = graph.insertVertex(parent, null, v.name, x, y, vertexDiameter, vertexDiameter, "shape=ellipse");
+                graphToGui.put(v, vertex);
             }
 
             // соединяем вершины ребрами
@@ -84,8 +84,6 @@ public class Visualizer extends JPanel {
                     graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=" + getEdgeColor(v1, v2));
                 }
             }
-
-            g.reset();
 
             graph.getModel().endUpdate();
         }
@@ -103,14 +101,13 @@ public class Visualizer extends JPanel {
     public String getEdgeColor(Vertex v1, Vertex v2){
         String color = "#555";
 
-        if ((algorithmThread != null) && (algorithmThread.getState() == Thread.State.TERMINATED)) {
+        if ((algorithm != null) && (algorithm.isFinished())) {
             color = "#BB00000";
         }
 
-        if( (v1 == activeEdgeV1 && v2 == activeEdgeV2) || (v1 == activeEdgeV2 && v2 == activeEdgeV1) ){
+        if ( (v1 == activeEdgeV1 && v2 == activeEdgeV2) || (v1 == activeEdgeV2 && v2 == activeEdgeV1) ) {
             color = "#0000FF";
-        }
-        else{
+        } else {
             if(currentMatching != null) {
                 boolean isInMatching = currentMatching.containsKey(v1) && (currentMatching.get(v1) == v2);
                 isInMatching |= currentMatching.containsKey(v2) && (currentMatching.get(v2) == v1);
@@ -129,6 +126,8 @@ public class Visualizer extends JPanel {
 
     public void setGraph(BiGraph bg) {
         g = bg;
+        algorithm = null;
+        algorithmThread = null;
         update();
     }
 

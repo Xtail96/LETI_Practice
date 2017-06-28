@@ -11,6 +11,7 @@ public class MaximalMatchingKuhn implements Runnable {
 
     private volatile boolean running = true;
     private volatile boolean paused = true;
+    private volatile boolean finished = false;
     private final boolean continuous;
     private final Object pauseLock = new Object();
     // исходный граф
@@ -52,6 +53,9 @@ public class MaximalMatchingKuhn implements Runnable {
 
         sendHint(System.lineSeparator() + "Алгоритм завершен", 0);
         sendActiveEdgeChanged(null, null);
+
+        // завершаемся
+        stop();
         sendFinished();
     }
 
@@ -88,7 +92,6 @@ public class MaximalMatchingKuhn implements Runnable {
     }
 
     public void addListener(AlgorithmEvent listener) {
-        System.out.println(listener);
         listeners.add(listener);
     }
 
@@ -111,6 +114,13 @@ public class MaximalMatchingKuhn implements Runnable {
         }
 
         return s;
+    }
+
+    /**
+     * @return true, если алгоритм завершил работу, иначе false
+     */
+    public boolean isFinished() {
+        return finished;
     }
 
     /**
@@ -160,6 +170,7 @@ public class MaximalMatchingKuhn implements Runnable {
      */
     public void stop() {
         running = false;
+        finished = true;
         resume();
     }
 
