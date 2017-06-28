@@ -11,8 +11,10 @@ public class Visualizer extends JPanel {
 
     private final int leftPartX = 150;
     private final int rightPartX = 600;
-    private final int vertexDiametr = 50;
-    private BiGraph g;
+    private final int vertexRadius = 25;
+    private final int vertexDiametr = 2 * vertexRadius;
+
+    private BiGraph g = new BiGraph();
     private mxGraphComponent graphComponent;
     private MaximalMatchingKuhn algorithm;
     private Thread algorithmThread;
@@ -50,29 +52,40 @@ public class Visualizer extends JPanel {
 
             HashMap<Vertex, Object> graphToGui = new HashMap<>();
 
-            // рисуем 1 долю
-            int y = vertexDiametr/2;
-            for(Vertex v1 : g.getPart1Vertices()) {
-                Object vertex = graph.insertVertex(parent, null, v1.name, leftPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
-                graphToGui.put(v1, vertex);
-                y += 1.5 * vertexDiametr;
-            }
+            // рисуем вершины
+            int y1 = vertexRadius;
+            int y2 = y1;
 
-            // рисуем 2 долю
-            y = vertexDiametr/2;
-            for(Vertex v2 : g.getPart2Vertices()){
-                Object vertex = graph.insertVertex(parent, null, v2.name, rightPartX, y, vertexDiametr, vertexDiametr, "shape=ellipse");
-                graphToGui.put(v2, vertex);
-                y += 1.5 * vertexDiametr;
+            for(Vertex v1 : g.getVertices()) {
+                int x = 0;
+                int y = 0;
+
+                if (g.isVertexInPart1(v1)) {
+                    // находится в первой доле
+                    x = leftPartX;
+                    y = y1;
+                    y1 += 3 * vertexRadius;
+                } else {
+                    // находится во второй доле
+                    x = rightPartX;
+                    y = y2;
+                    y2 += 3 * vertexRadius;
+                }
+
+                // отрисовываем вершину
+                Object vertex = graph.insertVertex(parent, null, v1.name, x, y, vertexDiametr, vertexDiametr, "shape=ellipse");
+                graphToGui.put(v1, vertex);
             }
 
             // соединяем вершины ребрами
-            for(Vertex v1 : g.getVertices()){
-                for(Vertex v2 : g.getNeighbours(v1)){
+            for (Vertex v1 : g.getVertices()) {
+                for (Vertex v2 : g.getNeighbours(v1)) {
                     Object vertex1 = graphToGui.get(v1), vertex2 = graphToGui.get(v2);
                     graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=" + getEdgeColor(v1, v2));
                 }
             }
+
+            g.reset();
 
             graph.getModel().endUpdate();
         }
@@ -89,13 +102,21 @@ public class Visualizer extends JPanel {
 
     public String getEdgeColor(Vertex v1, Vertex v2){
         String color = "#555";
+
+        if ((algorithmThread != null) && (algorithmThread.getState() == Thread.State.TERMINATED)) {
+            color = "#BB00000";
+        }
+
         if( (v1 == activeEdgeV1 && v2 == activeEdgeV2) || (v1 == activeEdgeV2 && v2 == activeEdgeV1) ){
             color = "#0000FF";
         }
         else{
             if(currentMatching != null) {
-                if (currentMatching.containsKey(v1) && (currentMatching.get(v1) == v2)) {
-                    color = "#555";
+                boolean isInMatching = currentMatching.containsKey(v1) && (currentMatching.get(v1) == v2);
+                isInMatching |= currentMatching.containsKey(v2) && (currentMatching.get(v2) == v1);
+
+                if (isInMatching) {
+                    color = "#00BB00";
                 }
             }
         }

@@ -186,6 +186,7 @@ public class MainWindow implements AlgorithmEvent {
         beginVisualizationButton.setEnabled(true);
         continiousCheckBox.setEnabled(true);
         nextStepButton.setEnabled(false);
+        visualizer1.update();
     }
 
     @Override
