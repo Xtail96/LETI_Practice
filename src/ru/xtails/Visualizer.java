@@ -2,10 +2,8 @@ package ru.xtails;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
-
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
 
 public class Visualizer extends JPanel {
 
@@ -14,8 +12,7 @@ public class Visualizer extends JPanel {
     private final int vertexRadius = 25;
     private final int vertexDiameter = 2 * vertexRadius;
 
-    private BiGraph g = new BiGraph();
-    private mxGraphComponent graphComponent;
+    private BiGraph graph = new BiGraph();
     private MaximalMatchingKuhn algorithm;
     private Thread algorithmThread;
 
@@ -24,69 +21,35 @@ public class Visualizer extends JPanel {
 
 
     Visualizer() {
-        mxGraph graph = new mxGraph();
 
-        graph.setCellsSelectable(false);
-        graph.setCellsBendable(false);
-        graph.setCellsEditable(false);
-
-        graphComponent = new mxGraphComponent(graph);
-        graphComponent.setConnectable(false);
-        graphComponent.setAutoScroll(true);
-        graphComponent.setPreferredSize(new Dimension(800, 600));
-
-        add(graphComponent);
-
-        //update();
     }
 
-    public void update(){
-        if(g != null) {
-            mxGraph graph = graphComponent.getGraph();
-            Object parent = graph.getDefaultParent();
+    private void drawVertex(Graphics2D graphics, Vertex v) {
+        int leftX, upperY;
+        leftX = v.x - vertexRadius;
+        upperY = v.y - vertexRadius;
 
-            // удаляем все элементы графа
-            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
-            // начинаем перерисовывать граф
-            graph.getModel().beginUpdate();
+        Color vertexBorderColor = new Color(0, 0, 0);
+        Color vertexBodyColor = new Color(223, 223, 223);
+        Color textColor = new Color(0, 0, 0);
 
-            HashMap<Vertex, Object> graphToGui = new HashMap<>();
+        graphics.setColor(vertexBodyColor);
+        graphics.fillOval(leftX, upperY, vertexDiameter, vertexDiameter);
+        graphics.setColor(vertexBorderColor);
+        graphics.drawOval(leftX, upperY, vertexDiameter, vertexDiameter);
 
-            // рисуем вершины
-            int y1 = vertexRadius;
-            int y2 = y1;
+        FontMetrics fm = graphics.getFontMetrics();
+        String vertexName = v.name;
 
-            for(Vertex v : g.getVertices()) {
-                int x = 0;
-                int y = 0;
+        int strWidth = fm.stringWidth(vertexName);
+        int strHeight = fm.getAscent();
+        graphics.setColor(textColor);
+        graphics.drawString(vertexName, v.x - strWidth/2, v.y + strHeight/2);
+    }
 
-                if (g.isVertexInPart1(v)) {
-                    // находится в первой доле
-                    x = leftPartX;
-                    y = y1;
-                    y1 += 3 * vertexRadius;
-                } else {
-                    // находится во второй доле
-                    x = rightPartX;
-                    y = y2;
-                    y2 += 3 * vertexRadius;
-                }
-
-                // отрисовываем вершину
-                Object vertex = graph.insertVertex(parent, null, v.name, x, y, vertexDiameter, vertexDiameter, "shape=ellipse");
-                graphToGui.put(v, vertex);
-            }
-
-            // соединяем вершины ребрами
-            for (Vertex v1 : g.getVertices()) {
-                for (Vertex v2 : g.getNeighbours(v1)) {
-                    Object vertex1 = graphToGui.get(v1), vertex2 = graphToGui.get(v2);
-                    graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=" + getEdgeColor(v1, v2));
-                }
-            }
-
-            graph.getModel().endUpdate();
-        }
+    public void drawEdge(Graphics2D graphics, Vertex src, Vertex dst) {
+        graphics.setColor(getEdgeColor(src, dst));
+        graphics.drawLine(src.x, src.y, dst.x, dst.y);
     }
 
     public void setActiveEdge(Vertex v1, Vertex v2){
@@ -98,37 +61,77 @@ public class Visualizer extends JPanel {
         currentMatching = matching;
     }
 
-    public String getEdgeColor(Vertex v1, Vertex v2){
-        String color = "#555";
+    public Color getEdgeColor(Vertex v1, Vertex v2){
+        Color unvisitedEdgeColor = new Color(50, 50, 50);
+        Color currentEdgeColor = new Color(0, 0, 255);
+        Color notMatchingEdgeColor = new Color(187, 0, 0);
+        Color matchingEdgeColor = new Color(0, 187, 0);
+        Color c = unvisitedEdgeColor;
 
         if ((algorithm != null) && (algorithm.isFinished())) {
-            color = "#BB00000";
+            c = notMatchingEdgeColor;
         }
 
         if ( (v1 == activeEdgeV1 && v2 == activeEdgeV2) || (v1 == activeEdgeV2 && v2 == activeEdgeV1) ) {
-            color = "#0000FF";
+            c = currentEdgeColor;
         } else {
             if(currentMatching != null) {
                 boolean isInMatching = currentMatching.containsKey(v1) && (currentMatching.get(v1) == v2);
                 isInMatching |= currentMatching.containsKey(v2) && (currentMatching.get(v2) == v1);
 
                 if (isInMatching) {
-                    color = "#00BB00";
+                    c = matchingEdgeColor;
                 }
             }
         }
-        return color;
+
+        return c;
     }
 
-    public void paintComponent(Graphics g){
-        update();
+    public void paintComponent(Graphics graphics){
+        Graphics2D graphics2D = (Graphics2D) graphics;
+        super.paintComponent(graphics);
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        if(graph != null) {
+            // подсчитываем координаты графа
+            int y1 = vertexRadius;
+            int y2 = y1;
+
+            for(Vertex v : graph.getVertices()) {
+                if (graph.isVertexInPart1(v)) {
+                    // находится в первой доле
+                    v.x = leftPartX;
+                    v.y = y1;
+                    y1 += 3 * vertexRadius;
+                } else {
+                    // находится во второй доле
+                    v.x = rightPartX;
+                    v.y = y2;
+                    y2 += 3 * vertexRadius;
+                }
+            }
+
+            // рисуем ребра
+            for (Vertex v1 : graph.getVertices()) {
+                for (Vertex v2 : graph.getNeighbours(v1)) {
+                    drawEdge(graphics2D, v1, v2);
+                }
+            }
+
+            // рисуем сами вершины
+            for (Vertex v : graph.getVertices()) {
+                drawVertex(graphics2D, v);
+            }
+        }
     }
 
     public void setGraph(BiGraph bg) {
-        g = bg;
+        graph = bg;
         algorithm = null;
         algorithmThread = null;
-        update();
+        revalidate();
+        repaint();
     }
 
     public void start(boolean continuous, AlgorithmEvent listener) {
@@ -137,12 +140,12 @@ public class Visualizer extends JPanel {
             algorithm.stop();
         }
 
-        algorithm = new MaximalMatchingKuhn(g, continuous);
+        algorithm = new MaximalMatchingKuhn(graph, continuous);
         algorithm.addListener(listener);
         algorithmThread = new Thread(algorithm);
         algorithmThread.start();
-
-        update();
+        revalidate();
+        repaint();
     }
 
     public void stop() {

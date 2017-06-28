@@ -178,7 +178,8 @@ public class MainWindow implements AlgorithmEvent {
 
     @Override
     public void stepEvent() {
-        visualizer1.update();
+        visualizer1.revalidate();
+        visualizer1.repaint();
     }
 
     @Override
@@ -190,19 +191,22 @@ public class MainWindow implements AlgorithmEvent {
         beginVisualizationButton.setEnabled(true);
         continiousCheckBox.setEnabled(true);
         nextStepButton.setEnabled(false);
-        visualizer1.update();
+        visualizer1.revalidate();
+        visualizer1.repaint();
     }
 
     @Override
     public void activeEdgeChanged(Vertex v1, Vertex v2){
         visualizer1.setActiveEdge(v1, v2);
-        visualizer1.update();
+        visualizer1.revalidate();
+        visualizer1.repaint();
     }
 
     @Override
     public void matchingChanged(final HashMap<Vertex, Vertex> matching){
         visualizer1.setCurrentMatching(matching);
-        visualizer1.update();
+        visualizer1.revalidate();
+        visualizer1.repaint();
     }
 
     /**

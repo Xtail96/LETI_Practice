@@ -4,19 +4,23 @@ public class Vertex implements Comparable<Vertex> {
     /**
      * Метка вершины
      */
-    public String name;
+    public String name = "";
+    /**
+     * Координаты вершины
+     */
+    int x = 0, y = 0;
     /**
      * Предшественник вершины
      */
-    public Vertex predecessor;
+    public Vertex predecessor = null;
     /**
      * Была ли посещена вершина
      */
-    public boolean visited;
+    public boolean visited = false;
     /**
      * Цвет вершины
      */
-    public int color;
+    public int color = 0;
 
     /**
      * Создает вершину
@@ -24,9 +28,6 @@ public class Vertex implements Comparable<Vertex> {
      */
     public Vertex(String v) {
         name = v;
-        predecessor = null;
-        visited = false;
-        color = 0;
     }
 
     /**
