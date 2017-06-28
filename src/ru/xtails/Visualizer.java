@@ -95,7 +95,7 @@ public class Visualizer extends JPanel {
         else{
             if(currentMatching != null) {
                 if (currentMatching.containsKey(v1) && (currentMatching.get(v1) == v2)) {
-                    color = "#00bb00";
+                    color = "#555";
                 }
             }
         }

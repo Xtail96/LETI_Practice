@@ -3,6 +3,7 @@ package ru.xtails;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.DefaultCaret;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -34,6 +35,8 @@ public class MainWindow implements AlgorithmEvent {
         beginVisualizationButton.setEnabled(false);
         nextStepButton.setEnabled(false);
         stopButton.setEnabled(false);
+        DefaultCaret caret  = (DefaultCaret) hintTextArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         openButton.addActionListener(new ActionListener() {
             @Override
