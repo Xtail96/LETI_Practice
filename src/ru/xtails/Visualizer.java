@@ -30,7 +30,7 @@ public class Visualizer extends JPanel {
         upperY = v.y - vertexRadius;
 
         Color vertexBorderColor = new Color(0, 0, 0);
-        Color vertexBodyColor = new Color(255, 255, 255);
+        Color vertexBodyColor = new Color(185, 221, 252);
         Color textColor = new Color(0, 0, 0);
 
         graphics.setColor(vertexBodyColor);
@@ -95,7 +95,7 @@ public class Visualizer extends JPanel {
 
         if(graph != null) {
             // подсчитываем координаты графа
-            int y1 = vertexRadius;
+            int y1 = vertexDiameter;
             int y2 = y1;
 
             for(Vertex v : graph.getVertices()) {
