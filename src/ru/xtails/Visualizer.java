@@ -30,7 +30,7 @@ public class Visualizer extends JPanel {
         upperY = v.y - vertexRadius;
 
         Color vertexBorderColor = new Color(0, 0, 0);
-        Color vertexBodyColor = new Color(223, 223, 223);
+        Color vertexBodyColor = new Color(255, 255, 255);
         Color textColor = new Color(0, 0, 0);
 
         graphics.setColor(vertexBodyColor);

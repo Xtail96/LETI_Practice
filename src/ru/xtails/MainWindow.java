@@ -1,6 +1,8 @@
 package ru.xtails;
 
 
+import com.sun.prism.paint.Color;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
