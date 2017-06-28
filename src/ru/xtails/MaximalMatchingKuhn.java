@@ -1,5 +1,6 @@
 package ru.xtails;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -32,13 +33,16 @@ public class MaximalMatchingKuhn implements Runnable {
         matching = new HashMap<>();
 
         if (graph != null) {
-            // для каждой вершины пытаемся найти увеличивающуюся цепь
-            for (Vertex v : graph.getVertices()) {
+            // для каждой вершины 1-й доли пытаемся найти увеличивающуюся цепь
+            for (Vertex v : graph.getPart1Vertices()) {
                 if (running) {
                     sendHint(System.lineSeparator() + "Запускаем DFS из вершины " + v, 0);
 
                     graph.reset();
-                    dfs(v, 0);
+                    if (dfs(v, 0)) {
+                        sendHint("Текущее паросочетание", 0);
+                        sendHint(getMatching(), 0);
+                    }
 
                 } else {
                     // завершаемся
@@ -46,7 +50,7 @@ public class MaximalMatchingKuhn implements Runnable {
                 }
             }
         }
-        
+
         sendHint(System.lineSeparator() + "Алгоритм завершен", 0);
         sendActiveEdgeChanged(null, null);
         sendFinished();
@@ -77,9 +81,7 @@ public class MaximalMatchingKuhn implements Runnable {
                 matching.put(to, root);
                 sendMatchingChanged();
                 return true;
-            }
-            else
-            {
+            } else {
                 sendHint("НЕ удалось найти увеличивающуюся цепь. Ребро " + root + " " + to + " в паросочетание НЕ добавлено", depth);
             }
         }
@@ -97,9 +99,15 @@ public class MaximalMatchingKuhn implements Runnable {
     public String getMatching() {
         String s = "";
 
-        for (Vertex v1 : graph.getPart1Vertices()) {
+        for (Vertex v1 : graph.getVertices()) {
             if (matching.containsKey(v1)) {
-                s += (v1 + " " + matching.get(v1) + System.lineSeparator());
+                Vertex src = v1, dst = matching.get(v1);
+                if (src.compareTo(dst) > 0) {
+                    src = dst;
+                    dst = v1;
+                }
+
+                s += (src + " " + dst + System.lineSeparator());
             }
         }
 

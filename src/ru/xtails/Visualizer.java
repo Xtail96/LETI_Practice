@@ -67,7 +67,7 @@ public class Visualizer extends JPanel {
             }
 
             // соединяем вершины ребрами
-            for(Vertex v1 : g.getPart1Vertices()){
+            for(Vertex v1 : g.getVertices()){
                 for(Vertex v2 : g.getNeighbours(v1)){
                     Object vertex1 = graphToGui.get(v1), vertex2 = graphToGui.get(v2);
                     graph.insertEdge(parent, null, "", vertex1, vertex2, "endArrow=none;strokeColor=" + getEdgeColor(v1, v2));
