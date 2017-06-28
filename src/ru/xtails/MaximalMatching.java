@@ -4,11 +4,10 @@ import javax.swing.*;
 
 public class MaximalMatching extends JFrame {
     public MaximalMatching() {
-        setTitle("Maximal Matching");
+        setTitle("Наибольшее паросочетания в двудольном графе");
         setContentPane(new MainWindow().mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setResizable(false);
         setVisible(true);
     }
 }

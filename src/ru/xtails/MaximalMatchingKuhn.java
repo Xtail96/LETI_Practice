@@ -74,8 +74,8 @@ public class MaximalMatchingKuhn implements Runnable {
         root.visited = true;
 
         for (Vertex to : graph.getNeighbours(root)) {
-            sendActiveEdgeChanged(root, to);
             sendHint("Пытаемся найти увеличивающуюся цепь через вершину " + to, depth);
+            sendActiveEdgeChanged(root, to);
             sendHint("Текущее ребро: " + root + " " + to, depth);
 
             if (!matching.containsKey(to) || dfs(matching.get(to), depth + 1)) {
@@ -96,7 +96,7 @@ public class MaximalMatchingKuhn implements Runnable {
     }
 
     /**
-     * @return текущее паросочетание
+     * @return текстовое представление текущего паросочетания
      */
     public String getMatching() {
         String s = "";
