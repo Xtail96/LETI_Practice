@@ -80,12 +80,14 @@ public class MaximalMatchingKuhn implements Runnable {
 
             if (!matching.containsKey(to) || dfs(matching.get(to), depth + 1)) {
                 // если удалось найти увеличивающуюся цепь, добавляем ребро в текущее паросочетание
-                sendHint("Удалось найти увеличивающуюся цепь. Добавляем ребро " + root + " " + to + " в паросочетание", depth);
+                sendHint("Удалось найти увеличивающуюся цепь.", depth);
+                sendHint("Добавляем ребро " + root + " " + to + " в паросочетание", depth);
                 matching.put(to, root);
                 sendMatchingChanged();
                 return true;
             } else {
-                sendHint("НЕ удалось найти увеличивающуюся цепь. Ребро " + root + " " + to + " в паросочетание НЕ добавлено", depth);
+                sendHint("НЕ удалось найти увеличивающуюся цепь.", depth);
+                sendHint("Ребро " + root + " " + to + " в паросочетание НЕ добавлено", depth);
             }
         }
         return false;
